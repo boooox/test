@@ -1,0 +1,213 @@
+@extends('user.u')
+
+@section('title', '编辑头像 - ')
+
+@section('res')
+<script src="../../static/js/libs/xiuxiu.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+
+
+    window.onload = function () {
+        function getUpToken() {
+
+            $.ajax({
+                url : 'https://www.xrsquare.com/qiniu/uptoken',
+                data : {'bucket' : 0},
+                beforeSend : function () {
+                    $('.uploadPortraitStatus').html('<i class="fa fa-spinner fa-pulse err"></i>').addClass('err');
+                },
+                success : function (data) {
+                    data = JSON.parse(data);
+                    if (data.status == '0') {
+                        $('.uploadPortraitPlu').show();
+
+                        xiuInit(data.uptoken);
+
+                        var timer = setInterval(function () {
+                            if ($('.uploadPortraitPlu object').length>0) {
+                                clearInterval(timer);
+                                $('.uploadPortraitStatus').html('').removeClass('err');
+                            }
+                        }, 500);
+                    } else {
+                        $('.uploadPortraitStatus').html('当前网络不佳，请重试').addClass('err');
+                    }
+                },
+                error : function () {
+                    $('.uploadPortraitStatus').html('当前网络不佳，请重试').addClass('err');
+                }
+
+            });
+
+
+
+        }
+
+
+
+        function uploadClick() {
+            $('.uploadPortrait').on('click', function () {
+                getUpToken();
+            });
+        }
+
+        /*function getPic(picToken, foo) {
+         $.ajax({
+         url    : "http://www.iyutang.com.cn/getpicurl",
+         data   : {"token": picToken},
+         success: function (data) {
+         data = JSON.parse(data);
+         var picHash = data.picurl;
+         foo(picHash);
+         }
+         });
+         }*/
+
+        function uploadPortraitSub(pic) {
+            $.ajax({
+                url : 'https://www.xrsquare.com/portrait',
+                type : 'POST',
+                data : {
+                    "pic": pic
+                },
+                success : function (data) {
+//                    data = JSON.parse(data);
+                    if (data == '上传成功') {
+                        var hostUrl = window.location.protocol + '//pic.xrsquare.com/';
+                        $('.uploadPortraitStatus').html('头像设置成功').addClass('ok');
+                        $('.uploadPortraitPlu').html('<div id="uploadPortraitPlu"></div>').removeAttr('style');
+                        $('.uploadPortrait img').attr('src', hostUrl + pic);
+                        $('.uploadPortrait').attr('data-portrait', hostUrl + pic);
+//                        $(".header-user .userTitle img").attr('src', hostUrl + pic);
+//                        $('.headPortrait img').attr('src', hostUrl + pic);
+                    } else {
+                        alert(data.content);
+                    }
+                },
+                error : function () {
+                    alert('当前网络不佳，请重试');
+                }
+            });
+        }
+
+        function xiuInit(token) {
+            xiuxiu.setLaunchVars("name", "file");
+            xiuxiu.setLaunchVars("cropPresets", "1:1");
+            xiuxiu.embedSWF("uploadPortraitPlu", 5, 700, 500, "lite");
+
+            xiuxiu.onInit = function (id)
+            {
+                xiuxiu.setUploadURL('http://upload.qiniu.com');
+                xiuxiu.setUploadArgs({token:token});
+                xiuxiu.setUploadType(2);
+                xiuxiu.setUploadDataFieldName("file");
+            };
+
+            xiuxiu.onBeforeUpload = function (data, id)
+            {
+                var size = data.size;
+                if(size > 1 * 1024 * 1024)
+                {
+                    alert("图片不能超过1M");
+                    return false;
+                }
+                return true;
+            };
+
+            xiuxiu.onUploadResponse = function (data)
+            {
+//					console.log(data, '\n', typeof data);
+//				alert("上传响应" + data);
+                //clearFlash();
+//					getPic(picToken, uploadPortraitSub(data.hash));
+//                console.log(data);
+                data = JSON.parse(data);
+                uploadPortraitSub(data.hash);
+            };
+
+            xiuxiu.onDebug = function (data)
+            {
+                alert("网络不佳请稍后再试");
+                console.log(data);
+                /*
+                console.log(data);
+                data = JSON.parse(data);
+                if (data.err_code == 301) {
+                    uploadPortraitSub(data.hash);
+                } else {
+                }
+                */
+            };
+
+            xiuxiu.onClose = function (id)
+            {
+                //alert(id + "关闭");
+                clearFlash();
+            };
+
+        }
+        //清除flash
+        function clearFlash()
+        {
+            var pic = $('.uploadPortrait').attr('data-portrait');
+            $('.uploadPortrait img').attr('src', pic);
+//				$('.uploadPortraitBox').show();
+        }
+
+        var portraitPic = $('.uploadPortrait img').data('portrait');
+        $('.uploadPortrait img').attr('src', portraitPic);
+        uploadClick();
+
+    }
+</script>
+
+
+@endsection
+
+@section('bodyContent')
+<div class="personal container clear">
+<!--左侧导航start-->
+	<div class="left_wrap">
+    	<ul class="nav_left">
+        	<li><a href="/userinfo">编辑个人资料</a></li>
+            <li><a  href="/portrait" id="select">上传头像</a></li>
+            <li><a href="/shiming">认证</a></li>
+            <li><a href=>评价</a></li>
+            <li><a href="/userability">编辑个人能力</a></li>
+            <li><a href="/soldability">编辑可出售能力</a></li>
+            <li><a href="">个人电子档案</a></li>
+            <li><a href="">个人主页</a></li>
+        </ul>
+    </div>
+<!--左侧导航end-->
+<!--右侧内容start-->
+    <div class="nav_right">
+        <div class="part">
+            <div class="part_contain">
+                <div class="uploadPortraitStatus"></div>
+                <div class="uploadPortraitBox">
+                    <div class="uploadPortrait">
+                        <img data-portrait="{{$pic}}" alt="">
+                    </div>
+                    <div class="uploadPortraitTip">点击图片更换头像</div>
+                </div>
+                <div class="uploadPortraitPlu">
+                    <div id="uploadPortraitPlu"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@endsection
+
+@section('resJs')
+
+<script coolie src="../../node_modules/coolie.js/coolie.js"
+        data-config="../../static/js/coolie-config.js"
+        data-main="./main.js"></script>
+
+@endsection

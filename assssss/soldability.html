@@ -1,0 +1,58 @@
+@extends('user.u')
+
+@section('title', '编辑可出售能力 - ')
+
+@section('res')
+
+
+@endsection
+
+@section('bodyContent')
+<div class="personal container clear">
+<!--左侧导航start-->
+	<div class="left_wrap">
+    	<ul class="nav_left">
+            <li><a href="/userinfo">编辑个人资料</a></li>
+            <li><a  href="/portrait">上传头像</a></li>
+            <li><a href="/shiming">认证</a></li>
+            <li><a href=>评价</a></li>
+            <li><a href="/userability">编辑个人能力</a></li>
+            <li><a href="/soldability" id="select">编辑可出售能力</a></li>
+            <li><a href="">个人电子档案</a></li>
+            <li><a href="">个人主页</a></li>
+        </ul>
+    </div>
+<!--左侧导航end-->
+<!--右侧内容start-->
+    <div class="nav_right">
+        <div class="part">
+            <div class="part_contain">
+                <div class="editCapability">
+
+                    <div class="capabilityList">
+
+                        <p class="tips" style="margin: 0 0 10px 0;">{{$tips}}</p>
+
+                        <h2>可出售的能力</h2>
+                        <div class="capabilityContent">
+                            {!!$Dom1!!}
+                        </div>
+                    </div>
+
+                    {!!$Dom2!!}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@endsection
+
+@section('resJs')
+
+<script coolie src="../../node_modules/coolie.js/coolie.js"
+        data-config="../../static/js/coolie-config.js"
+        data-main="./main.js"></script>
+
+@endsection

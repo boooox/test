@@ -1,0 +1,133 @@
+@extends('user.u')
+
+@section('title', '编辑可出售能力 - ')
+
+@section('res')
+
+
+@endsection
+
+@section('bodyContent')
+<div class="personal container clear">
+<!--左侧导航start-->
+	<div class="left_wrap">
+    	<ul class="nav_left">
+            <li><a href="/userinfo">编辑个人资料</a></li>
+            <li><a  href="/portrait">上传头像</a></li>
+            <li><a href="/shiming">认证</a></li>
+            <li><a href=>评价</a></li>
+            <li><a href="/userability">编辑个人能力</a></li>
+            <li><a href="/soldability" id="select">编辑可出售能力</a></li>
+            <li><a href="/personalarchive">个人电子档案</a></li>
+            <li><a href="">个人主页</a></li>
+        </ul>
+    </div>
+<!--左侧导航end-->
+<!--右侧内容start-->
+    <div class="nav_right">
+       <div class="xr-archive-nav clear">
+           <ul class="nav-pills fl">
+               <li role="presentation" class="xr-archive-tab active" data-type="0">个人大事件</li>
+               <li role="presentation" class="xr-archive-tab" data-type="1">个人风采</li>
+               <li role="presentation" class="xr-archive-tab" data-type="2">校园活动</li>
+               <li role="presentation" class="xr-archive-tab" data-type="3">社会活动</li>
+               <li role="presentation" class="xr-archive-tab" data-type="4">技能资质</li>
+               <li role="presentation" class="xr-archive-tab" data-type="5">梦想舞台</li>
+           </ul>
+           <div class="xr-archive-addBtn fr" >+ 发布内容</div>
+       </div>
+
+        <div class="xr-archive-sort">
+            <span>排序按：</span>
+            <span class="xr-archive-sortBtn active" data-type="0">发布时间</span>
+            <span class="xr-archive-sortBtn" data-type="1">事件时间</span>
+        </div>
+
+        <div class="xr-archive-list">
+            <ul class="xr-archive-list-content">
+                <li>
+                    <div class="xr-archive-list-tools clear">
+                        <div class="xr-archive-time fl">
+                            <span>时间<em class="xr-archive-time-event">2016-01-10</em></span>
+                            <span>时间<em class="xr-archive-time-add">2016-01-10</em></span>
+                        </div>
+                        <div class="xr-archive-visibility fl">
+                            <span class="xr-archive-visibility-change xr-archive-visibility-edit">所有人</span>
+                        </div>
+                        <div class="xr-archive-del fr">删除</div>
+
+                    </div>
+                    <div class="xr-archive-list-title">
+                        <p>啊实打实的</p>
+                    </div>
+                    <div class="xr-archive-list-content">
+                        <p>奥斯卡接电话卡时间段哈空间收到货卡坚实的看见爱上</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="xr-archive-list-tools clear">
+                        <div class="xr-archive-time fl">
+                            <span>时间 <em class="xr-archive-time-event">2016-01-10</em></span>
+                            <span>时间 <em class="xr-archive-time-add">2016-01-10</em></span>
+                        </div>
+                        <div class="xr-archive-visibility fl">
+                            <span class="xr-archive-visibility-change">所有人</span>
+                        </div>
+                        <div class="xr-archive-del fr">删除</div>
+
+                    </div>
+                    <div class="xr-archive-list-title">
+                        <p>啊实打实的</p>
+                    </div>
+                    <div class="xr-archive-list-content">
+                        <p>奥斯卡接电话卡时间段哈空间收到货卡坚实的看见爱上</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="xr-archive-list-tools clear">
+                        <div class="xr-archive-time fl">
+                            <span>时间 <em class="xr-archive-time-event">2016-01-10</em></span>
+                            <span>发布于 <em class="xr-archive-time-add">2016-01-10</em></span>
+                        </div>
+                        <div class="xr-archive-visibility fl">
+                            <span class="xr-archive-visibility-change">所有人</span>
+                        </div>
+                        <div class="xr-archive-del fr">删除</div>
+
+                    </div>
+                    <div class="xr-archive-list-title">
+                        <p>啊实打实的</p>
+                    </div>
+                    <div class="xr-archive-list-content">
+                        <p>奥斯卡接电话卡时间段哈空间收到货卡坚实的看见爱上</p>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="xr-page">
+            </div>
+        </div>
+    </div>
+</div>
+
+@endsection
+
+@section('resJs')
+<script type="text/javascript">
+    $(function(){
+        $(".xr-page").Page({
+            totalPages: 9,//分页总数
+            liNums: 7,//分页的数字按钮数(建议取奇数)
+            activeClass: 'activP', //active 类样式定义
+            callBack : function(page){
+                //console.log(page)
+            }
+        });
+    })
+</script>
+<script coolie src="../../node_modules/coolie.js/coolie.js"
+        data-config="../../static/js/coolie-config.js"
+        data-main="./main.js"></script>
+
+@endsection
+

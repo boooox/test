@@ -1,0 +1,206 @@
+@extends('user.u')
+
+@section('title', '编辑资料 - ')
+
+@section('res')
+
+<link rel="stylesheet" type="text/css" href="../../static/css/libs/jquery.datetimepicker.css">
+<script src="../../static/js/libs/jquery.datetimepicker.full.min.js"></script>
+
+@endsection
+
+@section('bodyContent')
+<div class="personal container clear">
+<!--左侧导航start-->
+	<div class="left_wrap">
+    	<ul class="nav_left">
+            <li><a href="/userinfo" id="select">编辑个人资料</a></li>
+            <li><a  href="/portrait">上传头像</a></li>
+            <li><a href="/shiming">认证</a></li>
+            <li><a href=>评价</a></li>
+            <li><a href="/userability">编辑个人能力</a></li>
+            <li><a href="/soldability">编辑可出售能力</a></li>
+            <li><a href="">个人电子档案</a></li>
+            <li><a href="">个人主页</a></li>
+        </ul>
+    </div>
+<!--左侧导航end-->
+<!--右侧内容start-->
+    <div class="nav_right">
+        <form action="/userinfo" method="post" class="xr-profile-form">
+            <div class="part">
+                <div class="part_contain xr-profile-contain">
+                    <ul>
+
+                        <li class="clear">
+                            <p class="fl tips">{{$tips}}</p>
+                            <input class="" name="_token" type="hidden" value="{{csrf_token()}}">
+                        </li>
+
+                        <li class="clear">
+                            <label for="xr-profile-nickName">
+                                <span><i>*</i>昵称</span>
+                            </label>
+                            <input class="xr-profile-master" id="xr-profile-nickName" name="nickname" type="text" value="{{$Name}}">
+                        </li>
+                        <li class="clear">
+                            <label>
+                                <span><i>*</i>性别</span>
+                            </label>
+                            <input type="radio" class="xr-profile-sex" name="sex" value="0" data-selected="{{$Sex1}}"> 男
+                            <input type="radio" class="xr-profile-sex" name="sex" value="1" data-selected="{{$Sex2}}"> 女
+                        </li>
+                        <li class="clear">
+                            <label>
+                                <span><i>*</i>出生日期</span>
+                            </label>
+                            <input class="xr-profile-master xr-profile-datetimepicker" id="datetimepicker2"  name="birthday" value="{{$BirthDay}}">
+                        </li>
+                        
+                        <li class="clear">
+                            <label>
+                                <span><i>*</i>身份</span>
+                            </label>
+                            <div class="clear" style="display:inline-block;">
+                               
+                                <select name="identify1" id="identifyF" class=" xr-profile-identify1" data-selected="{{$Identify1}}">
+                                    <option value="0">幼儿</option>
+                                    <option value="1">小学</option>
+                                    <option value="2">中学</option>
+                                    <option value="3">高中</option>
+                                    <option value="4">大学</option>
+                                    <option value="5">工作</option>
+                                </select>
+                            </div>
+                        </li>
+
+                        <li class="clear xr-profile-identify-2" style="display: none;">
+                            <label>
+                                <span><i>*</i>职业</span>
+                            </label>
+                            <div class="clear" style="display:inline-block;">
+                                <select name="identify2" class=" xr-profile-identify2" data-selected="{{$Identify2}}">
+                                    <option value="0">党的机关、国家机关、群众团体和社会组织、企事业单位负责人</option>
+                                    <option value="1">专业技术人员</option>
+                                    <option value="2">办事人员和有关人员</option>
+                                    <option value="3">社会生产服务和生活服务人员</option>
+                                    <option value="4">农、林、牧、渔业生产及辅助人员</option>
+                                    <option value="5">生产制造及有关人员</option>
+                                    <option value="6">军人</option>
+                                    <option value="7">不便分类的其他从业人员</option>
+                                </select>
+                            </div>
+                        </li>
+
+                        <li class="clear">
+                            <label>
+                                <span><i>*</i>地区</span>
+                            </label>
+                            <div class="clear" style="display: inline-block;">
+                                <div id="xr-profile-distPicker" data-province="{{$Province}}" data-city="{{$City}}" data-district="{{$District}}">
+                                    <select class="province" name="province"></select>
+                                    <select class="city" name="city"></select>
+                                    <select class="district" name="district"></select>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="clear lang_inp">
+                            <label for="xr-profile-company">
+                                <span><i>*</i>工作单位</span>
+                            </label>
+                            <input class="xr-profile-master"  type="text" id="xr-profile-company" name="company" value="{{$Company}}">
+                        </li>
+
+                        <li class="clear lang_inp">
+                            <label for="xr-profile-school">
+                                <span><i>*</i>现就读（已毕业）学校</span>
+                            </label>
+                            <input class="xr-profile-master"  type="text" id="xr-profile-school" name="school" value="{{$School}}">
+                        </li>
+
+                        <li class="clear individual">
+                            <label for="xr-profile-intro">
+                                <span class="fl">个人简介</span>
+                            </label>
+                            <textarea name="intro" id="xr-profile-intro" placeholder="100字以内......">{{$Intro}}</textarea>
+                        </li>
+
+                        <li class="clear">
+                            <label>
+                                <span>手机号</span>
+                            </label>
+                            <div class="xr-profile-phoneNum">
+                                <div class="xr-profile-phoneNum-content">{{$MobileNumber}}</div>
+                                <a href="">更换手机</a>
+                            </div>
+                        </li>
+
+                        <li class="clear">
+                            <label>
+                                <span>邮箱</span>
+                            </label>
+                            <div class="xr-profile-email">
+                                <div class="xr-profile-email-content">{{$Email}}</div>
+                                <a href="">绑定邮箱后可更换手机号，设置邮箱</a>
+                            </div>
+                        </li>
+
+                        <li class="clear">
+                            <label>
+                                <span>身份证</span>
+                            </label>
+                            <div class="xr-profile-id">
+                                <div class="xr-profile-id-content">{{$LicenceNumber}}</div>
+                            </div>
+                        </li>
+
+                        <li class="clear lang_inp">
+                            <label for="xr-profile-ecName">
+                                <span>紧急联系人</span>
+                            </label>
+                            <input type="text" id="xr-profile-ecName" name="ecname" value="{{$EmergencyContact_Name}}">
+                        </li>
+
+                        <li class="clear lang_inp">
+                            <label for="xr-profile-ecRelationship">
+                                <span>与您的关系</span>
+                            </label>
+                            <input type="text" id="xr-profile-ecRelationship" name="ecrelationship" value="{{$EmergencyContact_RelationShip}}">
+                        </li>
+
+                        <li class="clear lang_inp">
+                            <label for="xr-profile-ecPhone">
+                                <span>紧急联系人电话</span>
+                            </label>
+                            <input type="text" id="xr-profile-ecPhone" name="ecphone" value="{{$EmergencyContact_Phone}}">
+                        </li>
+
+                        <li class="clear">
+                            <label>
+                                <span><i>*</i>是否开启求职推送</span>
+                            </label>
+                            <input type="checkbox" id="xr-profile-jobPush">
+                            <input type="hidden" name="jobpush" value="{{$JobPush}}">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <button class="preserve xr-profile-submit" style="margin-bottom:50px;">保存</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@endsection
+
+@section('resJs')
+
+<script src="../../node_modules/distpicker/dist/distpicker.min.js"></script>
+
+<script coolie src="../../node_modules/coolie.js/coolie.js"
+        data-config="../../static/js/coolie-config.js"
+        data-main="./main.js"></script>
+
+@endsection
